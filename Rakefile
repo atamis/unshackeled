@@ -23,11 +23,11 @@ class TemplatingHelpers
   end
 
   def load_css(path)
-    '<style type="text/css">' + load(path) + '</style>'
+    "<!-- #{path} -->\n<style type=\"text/css\">" + load(path) + '</style>'
   end
 
   def load_js path
-    '<script type="text/javascript">' + load(path) + '</script>'
+    "<!-- #{path} -->\n<script type=\"text/javascript\">" + load(path) + '</script>'
   end
 
   def awesome
