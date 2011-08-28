@@ -22,6 +22,14 @@ class TemplatingHelpers
     return source
   end
 
+  def load_css(path)
+    '<style type="text/css">' + load(path) + '</style>'
+  end
+
+  def load_js path
+    '<script type="text/javascript">' + load(path) + '</script>'
+  end
+
   def awesome
     "awesome"
   end
@@ -48,10 +56,14 @@ desc "Preview the file"
 task :preview do
 
   puts ">>> Watching for changes"
-  FSSM.monitor(File.dirname(__FILE__), ['**/*.html.erb']) do
+  FSSM.monitor(File.dirname(__FILE__), ['**/*']) do
     update do
       puts "Updating..."
-      convert_master_template
+      begin
+        convert_master_template
+      rescue Exception => e
+        puts e
+      end
     end
   end
 
