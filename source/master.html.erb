@@ -1,5 +1,8 @@
 <html>
   <head>
+    <% javascripts.each do |js| %>
+      <%= load_js("js/vendor/" + js)%>
+    <% end %>
     <%= load_js("main.js") %>
     <%= load_css("main.css")%>
   </head>

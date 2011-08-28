@@ -33,11 +33,19 @@ class TemplatingHelpers
   def awesome
     "awesome"
   end
+
+  def javascripts
+    ["modernizr.min.js", "jquery.min.js", "underscore-min.js", "backbone-min.js"]
+  end
 end
 
 def process_erb(input)
   erb = Erubis::Eruby.new(input)
+  begin
   result = erb.result(TemplatingHelpers.new.getBinding)
+  rescue Exception => e
+    return input
+  end
 end
 
 def convert_master_template
