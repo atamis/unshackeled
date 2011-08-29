@@ -22,12 +22,18 @@ class TemplatingHelpers
     return source
   end
 
-  def load_css(path)
-    "<!-- #{path} -->\n<style type=\"text/css\">" + load(path) + '</style>'
+  def load_css(path, options={})
+    "<!-- #{path} -->\n<style type=\"text/css\" #{
+      options.inject("") do |accum, (key, value)|
+        accum + "#{key}=\"#{value}\" " # Add optional attributes
+      end}>" + load(path) + '</style>'
   end
 
-  def load_js path
-    "<!-- #{path} -->\n<script type=\"text/javascript\">" + load(path) + '</script>'
+  def load_js(path, options={})
+    "<!-- #{path} -->\n<script type=\"text/javascript\" #{
+      options.inject("") do |accum, (key, value)|
+        accum + "#{key}=\"#{value}\" " # Add optional attributes
+      end}>" + load(path) + '</script>'
   end
 
   def awesome
@@ -35,7 +41,8 @@ class TemplatingHelpers
   end
 
   def javascripts
-    ["modernizr.min.js", "jquery.min.js", "underscore-min.js", "backbone-min.js"]
+    ["modernizr.min.js", "jquery.min.js", "underscore-min.js", "backbone-min.js",
+      "liteaccordion.jquery.js"]
   end
 end
 
@@ -61,7 +68,7 @@ task :master_template do
 end
 
 desc "Preview the file"
-task :preview do
+task :preview => [:master_template] do
 
   puts ">>> Watching for changes"
   FSSM.monitor(File.dirname(__FILE__), ['**/*']) do

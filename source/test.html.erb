@@ -1,2 +1,9 @@
 
 <div>This is from test.html.erb</div>
+<script type="text/javascript">
+  localStorage["test"] = "awesome";
+  for (var i = 0; i < localStorage.length; i++){
+    document.write("<p>" + localStorage.key(i) + ": " + localStorage.getItem(localStorage.key(i)) + "</p>");
+  }
+</script>
+

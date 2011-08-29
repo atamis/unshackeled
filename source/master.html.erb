@@ -3,15 +3,57 @@
     <% javascripts.each do |js| %>
       <%= load_js("js/vendor/" + js)%>
     <% end %>
-    <%= load_js("main.js") %>
-    <%= load_css("main.css")%>
+    <%= load_js("js/main.js") %>
+    <%= load_css("css/blueprint/screen.css", media: "screen, projection")%>
+    <%= load_css("css/blueprint/print.css", media: "print")%>
+    <!--[if lt IE 8]>
+      <%= load_css("css/blueprint/ie.css", media: "screen, projection")%>
+    <![endif]-->
+    <%= load_css("css/main.css", media: "screen")%>
+    <%= load_css("css/liteaccordion.css", media: "screen")%>
   </head>
 
   <body>
-    This is a <%= awesome %>
+    <div id="accordion" class="accordion">
+      <ol>
+        <li>
+          <h2><span>Slide 1</span></h2>
+          <div>This is a test</div>
+        </li>
+        <li>
+          <h2><span>Slide 2</span></h2>
+          <div>This is a test
+            <%= load "test.html.erb" %>
+          </div>
+        </li>
+        <li>
+          <h2><span>Slide 3</span></h2>
+          <div>This is really cool.</div>
+        </li>
+      </ol>
+    </div>
+    <script type="text/javascript">
+      size = windowSize();
+      $('#accordion').liteAccordion({
+        theme: "basic",
+        rounded: true,
+        slideshow: 100,
+        containerWidth: size.width,
+        containerHeight: size.height,
+        enumerateSlides: true,
+        firstSlide: (function() {
+            var x = location.hash.slice(1);
+            if(x === "") {
+               return 1;
+             } else {
+              return parseInt(x);
+             }
+          })(),
+        slideCallback: function() {
+          window.location.hash = "#" + $("div.accordion h2.selected b").text() 
+        }
+      });
 
-    To be updated later...
-
-    <%= load "test.html.erb" %>
+    </script>
   </body>
 </html>
